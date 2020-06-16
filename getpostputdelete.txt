@@ -1,0 +1,8 @@
+get countryname
+get statename
+post countryname
+post statename
+put countryname
+put statename
+delete countryname
+delete statename

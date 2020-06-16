@@ -1,6 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const mysql = require("mysql");
 var request = require('request');
+
+const pool = mysql.createPool({
+    host: "localhost",
+    database: "proyeksoa",
+    user: "root",
+    password: ""
+});
 
 function getlatitudelongitude(latitude,longitude)
 {

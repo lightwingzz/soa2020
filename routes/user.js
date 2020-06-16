@@ -10,7 +10,7 @@ const pool = mysql.createPool({
     password: ""
 });
 
-router.get("/",function(req,res)
+router.post("/",function(req,res)
 {
     pool.getConnection(function(err,conn)
     {
@@ -19,7 +19,7 @@ router.get("/",function(req,res)
             return res.status(500).send(err);
         }
 
-        const query = `select country_name from country where country_name like '%${req.query.name}%'`;
+        const query = `insert into user (name,photo) values ("${req.query.name}","${req.query.photo}")`;
 
         conn.query(query,function(err,result)
         {

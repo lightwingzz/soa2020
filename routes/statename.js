@@ -19,7 +19,7 @@ router.get("/",function(req,res)
             return res.status(500).send(err);
         }
 
-        const query = `select country_name from country where country_name like '%${req.query.name}%'`;
+        const query = `select state_name from state where state_name like '%${req.query.name}%'`;
 
         conn.query(query,function(err,result)
         {
