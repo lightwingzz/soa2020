@@ -10,6 +10,32 @@ const pool = mysql.createPool({
     password: ""
 });
 
+router.get("/userlist",function(req,res)
+{
+    pool.getConnection(function(err,conn)
+    {
+        if(err)
+        {
+            return res.status(500).send(err);
+        }
+
+        const query = `select name from user`;
+
+        conn.query(query,function(err,result)
+        {
+            if(err)
+            {
+                return res.status(500).send(err);
+            }
+
+            else
+            {
+                return res.status(200).send(result);
+            }
+        }) 
+    });    
+});
+
 router.post("/",function(req,res)
 {
     pool.getConnection(function(err,conn)
@@ -19,7 +45,33 @@ router.post("/",function(req,res)
             return res.status(500).send(err);
         }
 
-        const query = `insert into user (name,photo) values ("${req.query.name}","${req.query.photo}")`;
+        const query = `insert into user (name,email,photo) values ("${req.query.name}","${req.query.email}","${req.query.photo}")`;
+
+        conn.query(query,function(err,result)
+        {
+            if(err)
+            {
+                return res.status(500).send(err);
+            }
+
+            else
+            {
+                return res.status(200).send(result);
+            }
+        }) 
+    });    
+});
+
+router.put("/email",function(req,res)
+{
+    pool.getConnection(function(err,conn)
+    {
+        if(err)
+        {
+            return res.status(500).send(err);
+        }
+
+        const query = `update user set email = "${req.query.email}" where name = "${req.query.name}"`;
 
         conn.query(query,function(err,result)
         {
@@ -36,4 +88,30 @@ router.post("/",function(req,res)
     });    
 });
     
+router.delete("/",function(req,res)
+{
+    pool.getConnection(function(err,conn)
+    {
+        if(err)
+        {
+            return res.status(500).send(err);
+        }
+
+        const query = `delete from user where name = "${req.query.name}"`;
+
+        conn.query(query,function(err,result)
+        {
+            if(err)
+            {
+                return res.status(500).send(err);
+            }
+
+            else
+            {
+                return res.status(200).send(result);
+            }
+        }) 
+    });    
+});
+
 module.exports = router 
