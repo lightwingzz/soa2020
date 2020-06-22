@@ -25,7 +25,7 @@ app.use("/api/countryname",countrynames);
 app.use("/api/statename",statenames);
 app.use("/api/user",users);
 app.use("/api/photo",photos);
-//app.use("/api/randomkey",randomkeys);
+app.use("/api/randomkey",randomkeys);
 
 app.listen(3000, function(){
     console.log("Listening to port 3000");
@@ -35,28 +35,3 @@ app.listen(3000, function(){
 //airvisual
 //key
 //e00e72e8-d53b-40ba-9cae-cb9a21f88fd3
-
-
-
-/*
-function getresep() {
-    return new Promise(function(resolve, reject) {
-        var options = {
-            'method': 'GET',
-            'url': `https://api.airvisual.com/v2/countries?key=e00e72e8-d53b-40ba-9cae-cb9a21f88fd3`
-          };
-        request(options, function (error, response) { 
-        if (error) reject(error);
-        resolve(response.body);
-        });
-    });
-}
-app.get('/api/resep',async function(req,res){
-    var hasil = await getresep();
-    console.log(hasil)
-    const parsing=JSON.parse(hasil);
-    console.log(parsing)
-    res.send(parsing)
-
-});
-*/

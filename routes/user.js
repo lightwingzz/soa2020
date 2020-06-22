@@ -66,10 +66,32 @@ function executeQuery(conn,query)
     });
 }
 
+function keygen() {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 15; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
 router.get("/userlist",async function(req,res)
 {
     try
     {
+        if(req.body.apikey === "")
+        {
+            res.status(400).send("bad request! fill all data!");
+        }
+
+        else if(req.body.apikey != "adminadminadmin")
+        {
+            res.status(401).send("not authorized!");
+        }
+
+        else
+        {
         let conn = await getconnection()
     
         let query = await executeQuery(conn,`select username from user`)
@@ -77,6 +99,7 @@ router.get("/userlist",async function(req,res)
         conn.release();
 
         res.status(200).send(query);
+        }
     }
 
     catch (error)
@@ -85,7 +108,7 @@ router.get("/userlist",async function(req,res)
     }
 });
 
-router.get("/login",async function(req,res)
+router.post("/login",async function(req,res)
 {
     try
     {
@@ -101,8 +124,6 @@ router.get("/login",async function(req,res)
         let query = await executeQuery(conn,`select email,password,aut_key from user where email = "${req.body.email}"`)
     
         conn.release();
-
-        console.log(query);
 
         if(req.body.email != query[0].email || req.body.password != query[0].password)
         {
@@ -137,13 +158,14 @@ router.post("/register",upload,async function(req,res)
 
         else
         {
+        let apikeygen = keygen();
         let conn = await getconnection()
     
-        let query = await executeQuery(conn,`insert into user (username,password,email,photo,type,date,aut_key) values ("${req.body.username}","${req.body.password}","${req.body.email}","${namafilefoto}","free","unlimited","zzz")`)
+        let query = await executeQuery(conn,`insert into user (username,password,email,photo,type,date,aut_key) values ("${req.body.username}","${req.body.password}","${req.body.email}","${namafilefoto}","free","unlimited","${apikeygen}")`)
     
         conn.release();
 
-        res.status(200).send("OK");
+        res.status(200).send("Register success");
         }
     }
 
@@ -159,11 +181,34 @@ router.put("/updateuser",async function(req,res)
     {
         let conn = await getconnection()
     
+        let query = await executeQuery(conn,`select email,password,aut_key from user where email = "${req.body.email}"`)
+    
+        conn.release();
+
+        let namaemail = query[0].email;
+        let passwordemail = query[0].password;
+        let autkey = query[0].aut_key;
+
+        if(req.body.email === ""||req.body.password === ""||req.body.username === ""||req.body.apikey === "")
+        {
+            res.status(400).send("bad request! fill all data!");
+        }
+
+        else if(req.body.email != namaemail||req.body.password != passwordemail||req.body.apikey != autkey)
+        {
+            res.status(401).send("not authorized!");
+        }
+
+        else
+        {
+        let conn = await getconnection()
+    
         let query = await executeQuery(conn,`update user set username = "${req.body.username}" where email = "${req.body.email}"`)
     
         conn.release();
 
-        res.status(200).send(query);
+        res.status(200).send("Updated");
+        }
     }
 
     catch (error)
@@ -178,11 +223,34 @@ router.delete("/deleteuser",async function(req,res)
     {
         let conn = await getconnection()
     
+        let query = await executeQuery(conn,`select email,password,aut_key from user where email = "${req.body.email}"`)
+    
+        conn.release();
+    
+        let namaemail = query[0].email;
+        let passwordemail = query[0].password;
+        let autkey = query[0].aut_key;
+    
+        if(req.body.email === ""||req.body.password === ""||req.body.apikey === "")
+        {
+            res.status(400).send("bad request! fill all data!");
+        }
+    
+        else if(req.body.email != namaemail||req.body.password != passwordemail||req.body.apikey != autkey)
+        {
+            res.status(401).send("not authorized!");
+        }
+
+        else
+        {
+        let conn = await getconnection()
+    
         let query = await executeQuery(conn,`delete from user where email = "${req.body.email}"`)
     
         conn.release();
 
-        res.status(200).send(query);
+        res.status(200).send("deleted");
+        }
     }
 
     catch (error)

@@ -1,11 +1,14 @@
 hasil ambil diproses jdi array (done)
 nearest city diproses jdi bhs indo (done)
 post user masukin ke body (done)
-error handling belum 
+error handling belum (done)
 login register + authentication authorization (register done)(login klo berhasil kasi api key,access kyk 3rd party taruh api di link)
+(generate api key done)
+
 payment model belum -> midtrans (?)
 automated testing (?)
-upload db (done)(gaisa di access)
+
+upload db (done tpi gaisa di access)
 
 get ->query params
 
