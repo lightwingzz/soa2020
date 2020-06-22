@@ -6,6 +6,14 @@ Port=3306
 
 
 
+host: "remotemysql.com",
+user: "IGMZJssNoK",
+password: "STHUyVWwDK",
+database: "IGMZJssNoK",
+port: "3306"
+
+
+
 
 host: "localhost",
 database: "proyeksoa",

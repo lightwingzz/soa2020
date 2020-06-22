@@ -5,18 +5,12 @@ var request = require('request');
 var dotenv = require('dotenv').config()
 
 const pool = mysql.createPool({
-    host: process.env.Server,
-    database: process.env.Databasename,
-    user: process.env.Username,
-    password: process.env.Password
+    host: process.env.host,
+    database: process.env.database,
+    user: process.env.user,
+    password: process.env.password,
+    port: process.env.port
 });
-
-// const pool = mysql.createPool({
-//     host: "localhost",
-//     database: "proyeksoa",
-//     user: "root",
-//     password: ""
-// });
 
 function getcountrylist(countrylist)
 {
@@ -103,6 +97,12 @@ router.post("/", async function(req, res)
     try
     {
         let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`truncate table country`)
+    
+        conn.release();
+
+        conn = await getconnection()
     
         let kembalians = await getcountrylist(req.query.countrylist);
         kembalians = JSON.parse(kembalians);

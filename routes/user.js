@@ -6,10 +6,11 @@ var request = require('request');
 var jwt = require('jsonwebtoken');
 
 const pool = mysql.createPool({
-    host: "localhost",
-    database: "proyeksoa",
-    user: "root",
-    password: ""
+    host: process.env.host,
+    database: process.env.database,
+    user: process.env.user,
+    password: process.env.password,
+    port: process.env.port
 });
 
 const storage = multer.diskStorage({

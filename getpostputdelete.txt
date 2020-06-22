@@ -41,4 +41,4 @@ put user update
 localhost:3000/api/user/updateuser
 
 delete user
-localhost:3000/api/user/
+localhost:3000/api/user/deleteuser

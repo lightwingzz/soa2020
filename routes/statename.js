@@ -4,10 +4,11 @@ const mysql = require("mysql");
 var request = require('request');
 
 const pool = mysql.createPool({
-    host: "localhost",
-    database: "proyeksoa",
-    user: "root",
-    password: ""
+    host: process.env.host,
+    database: process.env.database,
+    user: process.env.user,
+    password: process.env.password,
+    port: process.env.port
 });
 
 function getconnection()
