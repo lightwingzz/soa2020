@@ -70,8 +70,6 @@ function getnearestcity(nearestcity)
 router.get("/", async function(req, res){
     try
     {
-        //res.status(200).send(await getnearestcity(req.query.nearestcity));
-
         let kembalian = await getnearestcity(req.query.nearestcity);
         let hasil= [];
         kembalian = JSON.parse(kembalian);
@@ -87,7 +85,7 @@ router.get("/", async function(req, res){
         hasil.push("kecepatan angin (m/s) : " + kembalian.data.current.weather.ws)
         hasil.push("arah angin (360 derajat) : " + kembalian.data.current.weather.wd)
 
-        res.send(hasil);
+        res.status(200).send(hasil);
     }
 
     catch (error)

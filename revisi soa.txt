@@ -8,7 +8,7 @@ login register + authentication authorization (register done)(login klo berhasil
 payment model belum -> midtrans (?)
 automated testing (?)
 
-upload db (done tpi gaisa di access)
+upload db (done)
 
 get ->query params
 

@@ -70,10 +70,6 @@ function getlatitudelongitude(latitude,longitude)
 router.get("/", async function(req, res){
     try
     {
-        //res.status(200).send(await getlatitudelongitude(req.query.latitude,req.query.longitude));
-        
-        //console.log(req.query.latitude);
-
         if(req.query.latitude === "" || req.query.longitude === "")
         {
             res.status(400).send("bad request! fill all data!");
