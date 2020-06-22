@@ -27,9 +27,11 @@ app.use("/api/user",users);
 app.use("/api/photo",photos);
 app.use("/api/randomkey",randomkeys);
 
-app.listen(3000, function(){
-    console.log("Listening to port 3000");
-});
+app.listen(process.env.PORT || 3000, function (req,res) { console.log("Listening on port 3000..."); });
+
+// app.listen(3000, function(){
+//     console.log("Listening to port 3000");
+// });
 
 //iqair.com
 //airvisual
