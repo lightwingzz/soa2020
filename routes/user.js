@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("mysql");
+const multer = require("multer");
 var request = require('request');
+var jwt = require('jsonwebtoken');
 
 const pool = mysql.createPool({
     host: "localhost",
@@ -10,108 +12,183 @@ const pool = mysql.createPool({
     password: ""
 });
 
-router.get("/userlist",function(req,res)
-{
-    pool.getConnection(function(err,conn)
+const storage = multer.diskStorage({
+    destination: function(req,file,callback)
     {
-        if(err)
-        {
-            return res.status(500).send(err);
-        }
+        callback(null,'./uploads');
+    },
 
-        const query = `select name from user`;
-
-        conn.query(query,function(err,result)
-        {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
-
-            else
-            {
-                return res.status(200).send(result);
-            }
-        }) 
-    });    
+    filename: function(req,file,callback)
+    {
+        const filename = file.originalname.split(".");
+        const extension = filename[1]
+        callback(null, Date.now() + "." + extension)
+    }
 });
 
-router.post("/",function(req,res)
+const upload = multer({storage: storage}).single('profilepicture');
+
+function getconnection()
 {
-    pool.getConnection(function(err,conn)
+    return new Promise(function(resolve,reject)
     {
-        if(err)
-        {
-            return res.status(500).send(err);
-        }
-
-        const query = `insert into user (name,email,photo) values ("${req.query.name}","${req.query.email}","${req.query.photo}")`;
-
-        conn.query(query,function(err,result)
+        pool.getConnection(function(err,conn)
         {
             if(err)
             {
-                return res.status(500).send(err);
+                reject(err);
             }
 
             else
             {
-                return res.status(200).send(result);
+                resolve(conn);
             }
-        }) 
-    });    
+        })
+    });
+}
+
+function executeQuery(conn,query)
+{
+    return new Promise(function(resolve,reject)
+    {
+        conn.query(query,function(err,result)
+        {
+            if(err)
+            {
+                reject(err);
+            }
+
+            else
+            {
+                resolve(result);
+            }
+        });
+    });
+}
+
+router.get("/userlist",async function(req,res)
+{
+    try
+    {
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`select username from user`)
+    
+        conn.release();
+
+        res.status(200).send(query);
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    }
 });
 
-router.put("/email",function(req,res)
+router.get("/login",async function(req,res)
 {
-    pool.getConnection(function(err,conn)
+    try
     {
-        if(err)
+        if(req.body.email === ""||req.body.password === "")
         {
-            return res.status(500).send(err);
+            res.status(400).send("bad request! fill all data!");
         }
 
-        const query = `update user set email = "${req.query.email}" where name = "${req.query.name}"`;
-
-        conn.query(query,function(err,result)
+        else
         {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`select email,password,aut_key from user where email = "${req.body.email}"`)
+    
+        conn.release();
 
-            else
-            {
-                return res.status(200).send(result);
-            }
-        }) 
-    });    
+        console.log(query);
+
+        if(req.body.email != query[0].email || req.body.password != query[0].password)
+        {
+            res.status(401).send("wrong email or password");
+        }
+
+        else
+        {
+            let kunci = "api key : " + query[0].aut_key;
+            res.status(200).send(kunci);    
+        }
+        }
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    }
+});
+
+router.post("/register",upload,async function(req,res)
+{
+    const namafilefoto = req.file.filename.toString();
+
+    try
+    {
+
+        if(req.body.username === ""||req.body.password === "" || req.body.email === "" || namafilefoto === "")
+        {
+            res.status(400).send("bad request! fill all data!");
+        }
+
+        else
+        {
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`insert into user (username,password,email,photo,type,date,aut_key) values ("${req.body.username}","${req.body.password}","${req.body.email}","${namafilefoto}","free","unlimited","zzz")`)
+    
+        conn.release();
+
+        res.status(200).send("OK");
+        }
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    }       
+});
+
+router.put("/updateuser",async function(req,res)
+{
+    try
+    {
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`update user set username = "${req.body.username}" where email = "${req.body.email}"`)
+    
+        conn.release();
+
+        res.status(200).send(query);
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    } 
 });
     
-router.delete("/",function(req,res)
+router.delete("/deleteuser",async function(req,res)
 {
-    pool.getConnection(function(err,conn)
+    try
     {
-        if(err)
-        {
-            return res.status(500).send(err);
-        }
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`delete from user where email = "${req.body.email}"`)
+    
+        conn.release();
 
-        const query = `delete from user where name = "${req.query.name}"`;
+        res.status(200).send(query);
+    }
 
-        conn.query(query,function(err,result)
-        {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
-
-            else
-            {
-                return res.status(200).send(result);
-            }
-        }) 
-    });    
+    catch (error)
+    {
+        res.status(500).send(error);
+    }   
 });
 
 module.exports = router 

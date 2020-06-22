@@ -5,7 +5,7 @@ const multer = require("multer");
 const storage = multer.diskStorage({
     destination: function(req,file,callback)
     {
-        callback(null,'.uploads/');
+        callback(null,'./uploads');
     },
 
     filename: function(req,file,callback)
@@ -14,13 +14,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const uploads = multer({storage: storage}).single('propic');
-
-/*
-router.get("/weka",(req,res) => {
-    res.send("hello world");
-});
-*/
+const upload = multer({storage: storage}).single('propic');
 
 router.post('/', function (req,res){
     upload(req,res,function (err){

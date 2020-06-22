@@ -2,7 +2,7 @@ get countrylist
 localhost:3000/api/countrylist/
 
 get statelist
-localhost:3000/api/statelist/
+localhost:3000/api/statelist/?country=
 
 get nearestcity
 localhost:3000/api/nearestcity/

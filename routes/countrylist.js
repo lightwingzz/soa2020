@@ -2,13 +2,21 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("mysql");
 var request = require('request');
+var dotenv = require('dotenv').config()
 
 const pool = mysql.createPool({
-    host: "localhost",
-    database: "proyeksoa",
-    user: "root",
-    password: ""
+    host: process.env.Server,
+    database: process.env.Databasename,
+    user: process.env.Username,
+    password: process.env.Password
 });
+
+// const pool = mysql.createPool({
+//     host: "localhost",
+//     database: "proyeksoa",
+//     user: "root",
+//     password: ""
+// });
 
 function getcountrylist(countrylist)
 {
@@ -31,12 +39,24 @@ function getcountrylist(countrylist)
 router.get("/", async function(req, res){
     try
     {
-        res.status(200).send(await getcountrylist(req.query.countrylist));
+        let kembalian = await getcountrylist(req.query.countrylist);
+        let hasil= [];
+        kembalian = JSON.parse(kembalian);
+        
+        kembalian.data.forEach((item, i) => 
+        {
+            let daftarnegara = {
+                "Negara" : item.country
+            }
+            hasil.push(daftarnegara)
+        });
+
+        res.send(hasil);
     }
 
     catch (error)
     {
-        res.status(500).send(error);
+        res.status(500).send("internal service error");
     }
 });
 
@@ -59,7 +79,7 @@ function getconnection()
     });
 }
 
-function executeQuery(query)
+function executeQuery(conn,query)
 {
     return new Promise(function(resolve,reject)
     {
@@ -82,51 +102,25 @@ router.post("/", async function(req, res)
 {
     try
     {
-        let kembalian = await getcountrylist(req.query.countrylist);
-        kembalian = JSON.parse(kembalian);
+        let conn = await getconnection()
     
-        pool.getConnection(function(err,conn)
+        let kembalians = await getcountrylist(req.query.countrylist);
+        kembalians = JSON.parse(kembalians);
+    
+        kembalians.data.forEach(async(item, i) => 
         {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
-          
-            for (let i = 0; i < kembalian.data.length; i++) 
-            {
-                const query = "insert into country (country_name) values('"+kembalian.data[i].country+"')";
-                
-                conn.query(query,function(err,result)
-                {
-                    if(err)
-                    {
-                        //return res.status(500).send(err);
-                    }
-
-                    else
-                    {
-                        //return res.status(200).send(result);
-                    }
-                })
-                 
-            }
-
-        console.log("selesai");
-            
-        }); 
-
-        
-        //const conn = await getconnection();
-        //console.log(conn);
-        //executeQuery(conn,"insert into country (country_name) values('tole')");
-        //conn.release();
-        
-    }
+            let query = await executeQuery(conn,`insert into country values(NULL,'${item.country}')`)
+        });            
     
+        conn.release();
+
+        res.status(200).send("OK");
+    }
+
     catch (error)
     {
         res.status(500).send(error);
-    }
+    }   
 });
     
 module.exports = router 

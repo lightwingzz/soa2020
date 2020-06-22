@@ -10,82 +10,123 @@ const pool = mysql.createPool({
     password: ""
 });
 
-router.get("/",function(req,res)
+function getconnection()
 {
-    pool.getConnection(function(err,conn)
+    return new Promise(function(resolve,reject)
     {
-        if(err)
-        {
-            return res.status(500).send(err);
-        }
-
-        const query = `select country_name from country where country_name like '%${req.query.name}%'`;
-
-        conn.query(query,function(err,result)
+        pool.getConnection(function(err,conn)
         {
             if(err)
             {
-                return res.status(500).send(err);
+                reject(err);
             }
 
             else
             {
-                return res.status(200).send(result);
+                resolve(conn);
             }
-        }) 
-    });    
+        })
+    });
+}
+
+function executeQuery(conn,query)
+{
+    return new Promise(function(resolve,reject)
+    {
+        conn.query(query,function(err,result)
+        {
+            if(err)
+            {
+                reject(err);
+            }
+
+            else
+            {
+                resolve(result);
+            }
+        });
+    });
+}
+
+router.get("/",async function(req,res)
+{
+    try
+    {
+        if(req.query.name === "")
+        {
+            res.status(400).send("bad request! fill all data!");
+        }
+
+        else
+        {
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`select country_name from country where country_name like '%${req.query.name}%'`)
+    
+        conn.release();
+
+        res.status(200).send(query);
+        }
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    }
 });
     
-router.post("/",function(req,res)
+router.post("/",async function(req,res)
 {
-    pool.getConnection(function(err,conn)
+    try
     {
-        if(err)
+        if(req.query.name === "")
         {
-            return res.status(500).send(err);
+            res.status(400).send("bad request! fill all data!");
         }
 
-        const query = `insert into country (country_name) values ("${req.query.name}")`;
-
-        conn.query(query,function(err,result)
+        else
         {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`insert into country (country_name) values ("${req.query.name}")`)
+    
+        conn.release();
 
-            else
-            {
-                return res.status(200).send(result);
-            }
-        }) 
-    });    
+        res.status(200).send(query);
+        }
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    }
 });
 
-router.delete("/",function(req,res)
+router.delete("/",async function(req,res)
 {
-    pool.getConnection(function(err,conn)
+    try
     {
-        if(err)
+        if(req.query.name === "")
         {
-            return res.status(500).send(err);
+            res.status(400).send("bad request! fill all data!");
         }
 
-        const query = `delete from country where country_name = "${req.query.name}"`;
-
-        conn.query(query,function(err,result)
+        else
         {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
+        let conn = await getconnection()
+    
+        let query = await executeQuery(conn,`delete from country where country_name = "${req.query.name}"`)
+    
+        conn.release();
 
-            else
-            {
-                return res.status(200).send(result);
-            }
-        }) 
-    });    
+        res.status(200).send(query);
+        }
+    }
+
+    catch (error)
+    {
+        res.status(500).send(error);
+    }  
 });
 
 module.exports = router 

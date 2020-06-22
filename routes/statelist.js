@@ -31,12 +31,26 @@ function getstatelist(country)
 router.get("/", async function(req, res){
     try
     {
-        res.status(200).send(await getstatelist(req.query.country));
+        let kembalian = await getstatelist(req.query.country);
+        let hasil = [];
+        kembalian = JSON.parse(kembalian);
+
+        hasil.push("negara : " + req.query.country);
+
+        kembalian.data.forEach((item, i) => 
+        {
+            let daftarnegara = {
+                "Negara bagian" : item.state
+            }
+            hasil.push(daftarnegara)
+        });
+
+        res.send(hasil);
     }
 
     catch (error)
     {
-        res.status(500).send(error);
+        res.status(500).send("internal service error");
     }
 });
 
@@ -59,7 +73,7 @@ function getconnection()
     });
 }
 
-function executeQuery(query)
+function executeQuery(conn,query)
 {
     return new Promise(function(resolve,reject)
     {
@@ -82,45 +96,27 @@ router.post("/", async function(req, res)
 {
     try
     {
-        let kembalian = await getstatelist(req.query.statelist);
-        kembalian = JSON.parse(kembalian);
-    
-        pool.getConnection(function(err,conn)
+        if(req.query.country === "")
         {
-            if(err)
-            {
-                return res.status(500).send(err);
-            }
-          
-            for (let i = 0; i < kembalian.data.length; i++) 
-            {
-                const query = "insert into state (country_name,state_name) values('China','"+kembalian.data[i].state+"')";
-                
-                conn.query(query,function(err,result)
-                {
-                    if(err)
-                    {
-                        //return res.status(500).send(err);
-                    }
+            res.status(400).send("bad request! fill all data!");
+        }
 
-                    else
-                    {
-                        //return res.status(200).send(result);
-                    }
-                })
-                 
-            }
+        else
+        {
+        let conn = await getconnection()
+    
+        let kembalians = await getstatelist(req.query.country);
+        kembalians = JSON.parse(kembalians);
+    
+        kembalians.data.forEach(async(item, i) => 
+        {
+            let query = await executeQuery(conn,`insert into state values('${req.query.country}','${item.state}')`)
+        });            
+    
+        conn.release();
 
-        console.log("selesai");
-            
-        }); 
-
-        
-        //const conn = await getconnection();
-        //console.log(conn);
-        //executeQuery(conn,"insert into country (country_name) values('tole')");
-        //conn.release();
-        
+        res.status(200).send("OK");
+        }
     }
     
     catch (error)

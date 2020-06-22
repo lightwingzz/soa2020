@@ -3,3 +3,11 @@ Username=IGMZJssNoK
 Password=STHUyVWwDK
 Databasename=IGMZJssNoK
 Port=3306
+
+
+
+
+host: "localhost",
+database: "proyeksoa",
+user: "root",
+password: ""
