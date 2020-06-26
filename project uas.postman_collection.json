@@ -1,74 +1,74 @@
 {
 	"info": {
-		"_postman_id": "d71127ea-b230-46c0-b9da-86790ff17a9e",
+		"_postman_id": "86f08c20-26e7-4aef-8d39-331e7b761ef2",
 		"name": "project uas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "localhost:3000/api/nearestcity/",
+			"name": "get countrylist",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/statelist/",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/latitudelongitude/?latitude=48.02&longitude=-50.20",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/countrylist/",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/countryname/?name=ababwa",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/api/countryname/?name=ababwa",
+					"raw": "https://projectsoa2020.herokuapp.com/api/countrylist",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"projectsoa2020",
+						"herokuapp",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"countryname",
+						"countrylist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post countrylist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/countrylist",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"countrylist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get statelist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/statelist/?country=indonesia",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"statelist",
 						""
 					],
 					"query": [
 						{
-							"key": "name",
-							"value": "ababwa"
+							"key": "country",
+							"value": "indonesia"
 						}
 					]
 				}
@@ -76,25 +76,161 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/api/countryname/?name=ababwa",
+			"name": "post statelist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/statelist/?country=china",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"statelist",
+						""
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "china"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get nearestcity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/nearestcity",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"nearestcity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get latitudelongitude",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/latitudelongitude/?latitude=-37&longitude=-77",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"latitudelongitude",
+						""
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "-37"
+						},
+						{
+							"key": "longitude",
+							"value": "-77"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get countryname",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/countryname?name=us",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"countryname"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "us"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post countryname",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/countryname?name=bengawan",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"countryname"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "bengawan"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete countryname",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/countryname/?name=ababwa",
+					"raw": "https://projectsoa2020.herokuapp.com/api/countryname?name=bengawan",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"projectsoa2020",
+						"herokuapp",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"countryname",
-						""
+						"countryname"
 					],
 					"query": [
 						{
 							"key": "name",
-							"value": "ababwa"
+							"value": "bengawan"
 						}
 					]
 				}
@@ -102,79 +238,26 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/api/countryname/?name=ababwa",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/api/countryname/?name=ababwa",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"countryname",
-						""
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "ababwa"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/user/userlist",
+			"name": "get statename",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/user/userlist",
+					"raw": "https://projectsoa2020.herokuapp.com/api/statename?statename=u",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"projectsoa2020",
+						"herokuapp",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"user",
-						"userlist"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/user/?name=tole&email=test@gmail.com&photo=ab.jpg",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/api/user/?name=tole&email=test@gmail.com&photo=ab.jpg",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"user",
-						""
+						"statename"
 					],
 					"query": [
 						{
-							"key": "name",
-							"value": "tole"
-						},
-						{
-							"key": "email",
-							"value": "test@gmail.com"
-						},
-						{
-							"key": "photo",
-							"value": "ab.jpg"
+							"key": "statename",
+							"value": "u"
 						}
 					]
 				}
@@ -182,134 +265,227 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/api/user/?name=tole&email=tolatole@gmail.com",
+			"name": "post statename",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/statename?countryname=arab&statename=ababwa",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"statename"
+					],
+					"query": [
+						{
+							"key": "countryname",
+							"value": "arab"
+						},
+						{
+							"key": "statename",
+							"value": "ababwa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete statename",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/statename?statename=ababwa",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"statename"
+					],
+					"query": [
+						{
+							"key": "statename",
+							"value": "ababwa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get userlist",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "apikey",
+							"value": "adminadminadmin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/user/userlist/?=",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"user",
+						"userlist",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post userlogin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "bambang@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "bambang1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://projectsoa2020.herokuapp.com/api/user/login/",
+					"protocol": "https",
+					"host": [
+						"projectsoa2020",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"user",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update username",
 			"request": {
 				"method": "PUT",
 				"header": [],
-				"url": {
-					"raw": "localhost:3000/api/user/?name=tole&email=tolatole@gmail.com",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"user",
-						""
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "tole"
-						},
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
 						{
 							"key": "email",
-							"value": "tolatole@gmail.com"
+							"value": "ayambabigeprek@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "babigeprek",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "ikangeprek",
+							"type": "text"
+						},
+						{
+							"key": "apikey",
+							"value": "r9bJWVeoVbQdDuI",
+							"type": "text"
 						}
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/user/?name=tole",
-			"request": {
-				"method": "DELETE",
-				"header": [],
+				},
 				"url": {
-					"raw": "localhost:3000/api/user/?name=tole",
+					"raw": "https://projectsoa2020.herokuapp.com/api/user/updateuser",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"projectsoa2020",
+						"herokuapp",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"user",
-						""
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "tole"
-						}
+						"updateuser"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:3000/api/statename/?name=ind",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/api/statename/?name=ind",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"statename",
-						""
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "ind"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/statename/?name=indi",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/api/statename/?name=indi",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"statename",
-						""
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "indi"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:3000/api/statename/?name=indi",
+			"name": "delete user",
 			"request": {
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ayambabigeprek@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "babigeprek",
+							"type": "text"
+						},
+						{
+							"key": "apikey",
+							"value": "r9bJWVeoVbQdDuI",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "localhost:3000/api/statename/?name=indi",
+					"raw": "https://projectsoa2020.herokuapp.com/api/user/deleteuser",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"projectsoa2020",
+						"herokuapp",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"statename",
-						""
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "indi"
-						}
+						"user",
+						"deleteuser"
 					]
 				}
 			},
