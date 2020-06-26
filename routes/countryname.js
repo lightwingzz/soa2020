@@ -93,7 +93,7 @@ router.post("/",async function(req,res)
     
         conn.release();
 
-        res.status(200).send(query);
+        res.status(200).send("success insert");
         }
     }
 
@@ -120,7 +120,7 @@ router.delete("/",async function(req,res)
     
         conn.release();
 
-        res.status(200).send(query);
+        res.status(200).send("success delete");
         }
     }
 

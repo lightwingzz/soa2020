@@ -62,7 +62,7 @@ router.get("/",async function(req,res)
         {
         let conn = await getconnection()
     
-        let query = await executeQuery(conn,`select state_name from state where state_name like '%${req.query.name}%'`)
+        let query = await executeQuery(conn,`select state_name from state where state_name like '%${req.query.statename}%'`)
     
         conn.release();
 
@@ -89,11 +89,11 @@ router.post("/",async function(req,res)
         {
         let conn = await getconnection()
     
-        let query = await executeQuery(conn,`insert into state (state_name) values ("${req.query.name}")`)
+        let query = await executeQuery(conn,`insert into state (country_name,state_name) values ("${req.query.countryname}","${req.query.statename}")`)
     
         conn.release();
 
-        res.status(200).send(query);
+        res.status(200).send("success insert");
         }
     }
 
@@ -116,11 +116,11 @@ router.delete("/",async function(req,res)
         {
         let conn = await getconnection()
     
-        let query = await executeQuery(conn,`delete from state where state_name = "${req.query.name}"`)
+        let query = await executeQuery(conn,`delete from state where state_name = "${req.query.statename}"`)
     
         conn.release();
 
-        res.status(200).send(query);
+        res.status(200).send("success delete");
         }
     }
 
